@@ -1,4 +1,4 @@
-from typing import Protocol, NoReturn
+from typing import Protocol
 
 
 class Datastore(Protocol):
@@ -20,7 +20,7 @@ class Cache(Protocol):
         """Returns the associated member data"""
         raise NotImplementedError
 
-    async def set_guild(self, guild_id, data=None) -> NoReturn:
+    async def set_guild(self, guild_id, data=None) -> None:
         """Create a guild in cache
 
         Also store any data that might be
@@ -28,13 +28,13 @@ class Cache(Protocol):
         """
         raise NotImplementedError
 
-    async def set_member(self, member_id, guild_id, data=None) -> NoReturn:
+    async def set_member(self, member_id, guild_id, data=None) -> None:
         """Create a member within the cache
 
         Store any additional data on creation
         """
         raise NotImplementedError
 
-    async def update_member(self, member_id, guild_id, data) -> NoReturn:
+    async def update_member(self, member_id, guild_id, data) -> None:
         """Update a members data within cache"""
         raise NotImplementedError
