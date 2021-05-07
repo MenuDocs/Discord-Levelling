@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Protocol, List
 
+import attr
+
 
 class Datastore(Protocol):
     """A base interface for datastores"""
@@ -58,13 +60,23 @@ class Cache(Protocol):
         raise NotImplementedError
 
 
-@dataclass
-class Member:
-    identifier: int  # Think member.id
-    xp: int
+@attr.s(slots=True)
+class Member(object):
+    identifier: int = attr.ib(hash=True)  # Think member.id
+    xp: int = attr.ib()
+    guild_id: int = attr.ib(
+        default=None,
+        validator=attr.validators.optional(attr.validators.instance_of(int)),
+        kw_only=True,
+    )
+
+    @xp.validator
+    def _validate_positive(self, attr, value):
+        if value < 0:
+            raise ValueError("XP must be positive")
 
 
-@dataclass
+@attr.s
 class Guild:
-    identifier: int  # Think guild.id
-    members: List[Member]
+    identifier: int = attr.ib(hash=True)  # Think guild.id
+    members: List[Member] = attr.ib()
