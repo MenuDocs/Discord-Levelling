@@ -20,4 +20,4 @@ async def on_message(message):
 
 
 if __name__ == "__main__":
-    bot.run("NTY2MTMwNjk4OTM1NTk5MTA0.Xb5zvw.JiKInSTwOynpE5y8j335em5X6kI")
+    bot.run("A great token !")
