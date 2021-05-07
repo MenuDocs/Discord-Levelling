@@ -20,6 +20,8 @@ with open("./discord/ext/levelling/__init__.py") as stream:
 
 version = match.group(2)
 
+extra_requires = {"json": ["aiofiles"]}
+
 setuptools.setup(
     name="discord.ext.levelling",
     version=version,
@@ -31,6 +33,7 @@ setuptools.setup(
     url="https://github.com/MenuDocs/discord.ext.levelling",
     packages=setuptools.find_packages(),
     install_requires=["discord.py>=1"],
+    extra_requires=extra_requires,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

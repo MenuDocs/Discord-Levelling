@@ -1,7 +1,8 @@
 import discord
 
-from .abc import Cache, Datastore
+from .caches import Memory
 from .options import Options
+from .abc import Cache, Datastore
 from .exceptions import MemberNotFound
 
 
@@ -26,7 +27,7 @@ class Level:
         options : Options
             An instance of the ``Options`` dataclass to show the options to support
         """
-        self.cache = cache
+        self.cache = cache or Memory()
         self.data_store = data_store
         self.options = options
 
