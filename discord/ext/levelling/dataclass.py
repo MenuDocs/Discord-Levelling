@@ -6,7 +6,7 @@ import attr
 @attr.s(slots=True)
 class Member(object):
     identifier: int = attr.ib(hash=True, eq=True)  # Think member.id
-    xp: int = attr.ib(eq=False)
+    xp: int = attr.ib(eq=False, default=0)
     guild_id: int = attr.ib(
         default=None,
         validator=attr.validators.optional(attr.validators.instance_of(int)),

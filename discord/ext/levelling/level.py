@@ -1,11 +1,12 @@
-import discord
+from functools import lru_cache
 
-from discord.ext.levelling.caches import Memory
-from discord.ext.levelling.options import Options
-from discord.ext.levelling.abc import Cache, Datastore, Member
-from discord.ext.levelling.exceptions import MemberNotFound
-
-from discord.ext.levelling.datastores.json import Json
+from .caches import Memory
+import discord.ext.levelling.options
+from .abc import Cache, Datastore
+from .dataclass import Member
+from .exceptions import MemberNotFound
+from .datastores.json import Json
+from .options import Options
 
 
 class Level:
@@ -38,32 +39,83 @@ class Level:
             # Either dm's are ignored or per guild is enabled, so ignore dm's
             return
 
-        member = Member(identifier=message.author.id, xp=0)
+        member = Member(identifier=message.author.id)
         guild_id: int = message.guild.id if self.options.per_guild else None
         try:
-            member_data = await self.cache.get_member(
+            member: Member = await self.cache.get_member(
                 member_id=message.author.id, guild_id=guild_id
-            )
-            member = Member(
-                identifier=member_data["identifier"],
-                xp=member_data["xp"],
-                guild_id=member_data["guild_id"],
             )
         except MemberNotFound:
             try:
-                member_data = await self.data_store.fetch_member(
+                member: Member = await self.data_store.fetch_member(
                     member_id=message.author.id, guild_id=guild_id
-                )
-                member = Member(
-                    identifier=member_data["identifier"],
-                    xp=member_data["xp"],
-                    guild_id=member_data["guild_id"],
                 )
             except MemberNotFound:
                 pass
 
-    async def increase_xp(self, member: Member):
-        member.xp += 15
+    @lru_cache
+    def get_level(self, level: int) -> int:
+        """
+        Returns the amount of xp required
+        for the next level
+
+        Parameters
+        ----------
+        level: int
+            The members current level
+
+        Returns
+        -------
+        int
+            Required xp for the next level
+        """
+        return 5 * (level ** 2) + 50 * level + 100
+
+    @lru_cache
+    def get_level_from_xp(self, xp: int) -> int:
+        """
+        Given a member, extract there level from the
+        amount of xp they currently have
+
+        Parameters
+        ----------
+        xp: int
+            The xp amount to get a level for
+
+        Returns
+        -------
+        int
+            The Member's level
+        """
+        level = 0
+        remaining_xp = xp
+        while remaining_xp >= self.get_level(level):
+            remaining_xp -= self.get_level(level)
+            level += 1
+        return level
+
+    @lru_cache
+    def get_remaining_xp(self, current_level: int, xp: int) -> int:
+        """
+        Calculates the required amount of xp left to
+        achieve the next level from the current level
+
+        Parameters
+        ----------
+        current_level : int
+            The Members current level
+        xp : int
+            The members current xp
+
+        Returns
+        -------
+        int
+            The amount of xp required to get to the next level
+        """
+        xp_to_next_level = 0
+        for i in range(current_level):
+            xp_to_next_level += self.get_level(current_level)
+        return xp - xp_to_next_level
 
     @staticmethod
     async def from_store(data_store: Datastore):
