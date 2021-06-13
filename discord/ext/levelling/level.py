@@ -1,5 +1,7 @@
 from functools import lru_cache
 
+from attr import asdict
+
 from .caches import Memory
 import discord.ext.levelling.options
 from .abc import Cache, Datastore
@@ -7,6 +9,7 @@ from .dataclass import Member
 from .exceptions import MemberNotFound
 from .datastores.json import Json
 from .options import Options
+from .payloads import LevelUpPayload
 
 
 class Level:
@@ -14,6 +17,7 @@ class Level:
 
     def __init__(
         self,
+        bot,
         *,
         cache: Cache = None,
         data_store: Datastore = None,
@@ -23,6 +27,8 @@ class Level:
 
         Parameters
         ----------
+        bot: commands.Bot
+
         cache : Cache
             An instance of a class implementing the ``Cache`` interface Protocol
         data_store : Datastore
@@ -30,6 +36,7 @@ class Level:
         options : Options
             An instance of the ``Options`` dataclass to show the options to support
         """
+        self.bot = bot
         self.cache = cache or Memory()
         self.data_store = data_store or Json()
         self.options = options or Options()
@@ -53,8 +60,27 @@ class Level:
             except MemberNotFound:
                 pass
 
+        current_level = self.get_level_from_xp(member.xp)
+        member.xp += self.options.xp_increase_amount
+        new_level = self.get_level_from_xp(member.xp)
+
+        # Update internals
+        await self.data_store.set_member(
+            member_id=member.identifier, data=asdict(member), guild_id=member.guild_id
+        )
+        await self.cache.set_member(
+            member_id=member.identifier, data=asdict(member), guild_id=member.guild_id
+        )
+
+        if current_level == new_level:
+            # Do nothing, didnt level up
+            return
+
+        # Did level up
+        self.bot.dispatch("level_up", LevelUpPayload(member=member, level=new_level))
+
     @lru_cache
-    def get_level(self, level: int) -> int:
+    def get_level_xp_amount(self, level: int) -> int:
         """
         Returns the amount of xp required
         for the next level
@@ -89,8 +115,8 @@ class Level:
         """
         level = 0
         remaining_xp = xp
-        while remaining_xp >= self.get_level(level):
-            remaining_xp -= self.get_level(level)
+        while remaining_xp >= self.get_level_xp_amount(level):
+            remaining_xp -= self.get_level_xp_amount(level)
             level += 1
         return level
 
@@ -114,7 +140,7 @@ class Level:
         """
         xp_to_next_level = 0
         for i in range(current_level):
-            xp_to_next_level += self.get_level(current_level)
+            xp_to_next_level += self.get_level_xp_amount(current_level)
         return xp - xp_to_next_level
 
     @staticmethod
