@@ -1,5 +1,6 @@
-from discord.ext.levelling.abc import Cache
-from discord.ext.levelling.exceptions import GuildNotFound, MemberNotFound
+from ..abc import Cache
+from ..dataclass import Guild, Member
+from ..exceptions import GuildNotFound, MemberNotFound
 
 
 class Memory(Cache):
@@ -8,21 +9,26 @@ class Memory(Cache):
     def __init__(self):
         self.cache = {}
 
-    async def get_guild(self, guild_id: int) -> dict:
+    async def get_guild(self, guild_id: int) -> Guild:
         try:
-            return self.cache[guild_id]
+            return Guild(identifier=guild_id, raw_members=self.cache[guild_id])
         except KeyError:
             raise GuildNotFound from None
 
-    async def get_member(self, member_id: int, guild_id: int = None) -> dict:
+    async def get_member(self, member_id: int, guild_id: int = None) -> Member:
         if guild_id:
             try:
-                guild = await self.get_guild(guild_id=guild_id)
-                return guild[member_id]
+                guild: Guild = await self.get_guild(guild_id=guild_id)
+                member: Member = next(
+                    i for i in guild.members if i.identifier == member_id
+                )
+                return member
             except GuildNotFound:
                 raise MemberNotFound from None
             except KeyError:
                 raise MemberNotFound from None
+            except StopIteration:
+                raise MemberNotFound
 
         try:
             return self.cache[member_id]

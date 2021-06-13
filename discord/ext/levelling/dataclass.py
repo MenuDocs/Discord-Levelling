@@ -5,12 +5,13 @@ import attr
 
 @attr.s(slots=True)
 class Member(object):
-    identifier: int = attr.ib(hash=True)  # Think member.id
-    xp: int = attr.ib()
+    identifier: int = attr.ib(hash=True, eq=True)  # Think member.id
+    xp: int = attr.ib(eq=False)
     guild_id: int = attr.ib(
         default=None,
         validator=attr.validators.optional(attr.validators.instance_of(int)),
         kw_only=True,
+        eq=False,
     )
 
     @xp.validator

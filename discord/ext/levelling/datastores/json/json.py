@@ -1,12 +1,11 @@
 import json
 import os
 
-import aiofiles
 from pathlib import Path
 
-from discord.ext.levelling.abc import Datastore
-from discord.ext.levelling.dataclass import Guild, Member
-from discord.ext.levelling.exceptions import GuildNotFound, MemberNotFound
+from ...abc import Datastore
+from ...dataclass import Guild, Member
+from ...exceptions import GuildNotFound, MemberNotFound
 
 
 class Json(Datastore):
@@ -21,7 +20,7 @@ class Json(Datastore):
     async def fetch_guild(self, guild_id: int) -> Guild:
         data = await self._read()
         try:
-            return data[guild_id]
+            return Guild(identifier=guild_id, raw_members=data[guild_id])
         except KeyError:
             raise GuildNotFound from None
 
@@ -29,11 +28,16 @@ class Json(Datastore):
         if guild_id:
             try:
                 guild = await self.fetch_guild(guild_id=guild_id)
-                return guild[member_id]
+                member: Member = next(
+                    i for i in guild.members if i.identifier == member_id
+                )
+                return member
             except GuildNotFound:
                 raise MemberNotFound from None
             except KeyError:
                 raise MemberNotFound from None
+            except StopIteration:
+                raise MemberNotFound
 
         data = await self._read()
         try:
