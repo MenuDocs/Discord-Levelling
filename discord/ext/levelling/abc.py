@@ -1,7 +1,6 @@
-from dataclasses import dataclass
-from typing import Protocol, List
+from typing import Protocol
 
-import attr
+from discord.ext.levelling.dataclass import Member, Guild
 
 
 class Datastore(Protocol):
@@ -9,11 +8,11 @@ class Datastore(Protocol):
 
     __slots__ = ()
 
-    async def fetch_guild(self, guild_id: int) -> dict:
+    async def fetch_guild(self, guild_id: int) -> Guild:
         """Returns the associated guilds data"""
         raise NotImplementedError
 
-    async def fetch_member(self, member_id: int, guild_id: int = None) -> dict:
+    async def fetch_member(self, member_id: int, guild_id: int = None) -> Member:
         """Returns the associated member data
 
         Where ``guild_id`` is ``None`` implies
@@ -37,11 +36,11 @@ class Cache(Protocol):
 
     __slots__ = ()
 
-    async def get_guild(self, guild_id: int) -> dict:
+    async def get_guild(self, guild_id: int) -> Guild:
         """Returns the associated guilds data"""
         raise NotImplementedError
 
-    async def get_member(self, member_id: int, guild_id: int = None) -> dict:
+    async def get_member(self, member_id: int, guild_id: int = None) -> Member:
         """Returns the associated member data
 
         Where ``guild_id`` is ``None`` implies
@@ -58,25 +57,3 @@ class Cache(Protocol):
         a global levelling storage
         """
         raise NotImplementedError
-
-
-@attr.s(slots=True)
-class Member(object):
-    identifier: int = attr.ib(hash=True)  # Think member.id
-    xp: int = attr.ib()
-    guild_id: int = attr.ib(
-        default=None,
-        validator=attr.validators.optional(attr.validators.instance_of(int)),
-        kw_only=True,
-    )
-
-    @xp.validator
-    def _validate_positive(self, attr, value):
-        if value < 0:
-            raise ValueError("XP must be positive")
-
-
-@attr.s
-class Guild:
-    identifier: int = attr.ib(hash=True)  # Think guild.id
-    members: List[Member] = attr.ib()
