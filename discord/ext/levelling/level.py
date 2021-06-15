@@ -1,3 +1,5 @@
+import math
+import random
 from functools import lru_cache
 
 from attr import asdict
@@ -60,8 +62,15 @@ class Level:
             except MemberNotFound:
                 pass
 
+        # Get level before xp
         current_level = self.get_level_from_xp(member.xp)
-        member.xp += self.options.xp_increase_amount
+
+        # Add a random amount of xp with the base
+        member.xp += (
+            math.floor(random.random() * 10) + self.options.xp_base_increase_amount
+        )
+
+        # Get level after xp addition
         new_level = self.get_level_from_xp(member.xp)
 
         # Update internals
