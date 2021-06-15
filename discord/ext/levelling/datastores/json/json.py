@@ -20,7 +20,7 @@ class Json(Datastore):
     async def fetch_guild(self, guild_id: int) -> Guild:
         data = await self._read()
         try:
-            return Guild(identifier=guild_id, raw_members=data[guild_id])
+            return Guild(identifier=guild_id, raw_members=data[str(guild_id)])
         except KeyError:
             raise GuildNotFound from None
 
@@ -41,7 +41,7 @@ class Json(Datastore):
 
         data = await self._read()
         try:
-            return data[member_id]
+            return data[str(member_id)]
         except KeyError:
             raise MemberNotFound from None
 
@@ -49,7 +49,9 @@ class Json(Datastore):
         self, member_id: int, data: dict, guild_id: int = None
     ) -> None:
         file_data = await self._read()
+        member_id = str(member_id)
         if guild_id:
+            guild_id = str(guild_id)
             if guild_id not in file_data:
                 file_data[guild_id] = {}
             file_data[guild_id][member_id] = data
