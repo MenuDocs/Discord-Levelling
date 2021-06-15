@@ -11,7 +11,10 @@ class Memory(Cache):
 
     async def get_guild(self, guild_id: int) -> Guild:
         try:
-            return Guild(identifier=guild_id, raw_members=self.cache[guild_id])
+            guild = Guild(identifier=guild_id)
+            raw_members = self.cache[guild_id]
+            guild._raw_members.append(raw_members)
+            return guild
         except KeyError:
             raise GuildNotFound from None
 
@@ -39,7 +42,9 @@ class Memory(Cache):
         self, member_id: int, data: dict, guild_id: int = None
     ) -> None:
         if guild_id:
-            guild = self.cache.get(guild_id, {})
-            guild[member_id] = data
+            guild = self.cache.get(guild_id)
+            if not guild:
+                self.cache[guild_id] = {}
+            self.cache[guild_id][member_id] = data
         else:
             self.cache[member_id] = data

@@ -46,9 +46,10 @@ class Level:
     async def propagate(self, message: discord.Message) -> None:
         if (self.options.ignore_dms or self.options.per_guild) and not message.guild:
             # Either dm's are ignored or per guild is enabled, so ignore dm's
+            # Ignore guilds atm
             return
 
-        member = Member(identifier=message.author.id)
+        member = Member(identifier=message.author.id, guild_id=message.guild.id)
         guild_id: int = message.guild.id if self.options.per_guild else None
         try:
             member: Member = await self.cache.get_member(
@@ -86,7 +87,10 @@ class Level:
             return
 
         # Did level up
-        self.bot.dispatch("level_up", LevelUpPayload(member=member, level=new_level))
+        self.bot.dispatch(
+            "level_up",
+            LevelUpPayload(member=member, level=new_level, channel=message.channel),
+        )
 
     @lru_cache
     def get_level_xp_amount(self, level: int) -> int:

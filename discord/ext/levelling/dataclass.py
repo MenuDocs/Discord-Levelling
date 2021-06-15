@@ -29,7 +29,10 @@ class Guild:
     @property
     def members(self) -> List[Member]:
         if not bool(self._members):
-            for item in self._raw_members:
-                self._members.append(Member(**item))
+            for i, item in enumerate(self._raw_members):
+                data = self._raw_members[i]
+                # TODO Fix this shit
+                self._members.append(Member(**dict(data.values())))
+                print(self._members)
 
         return self._members

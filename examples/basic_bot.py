@@ -1,23 +1,33 @@
+import os
+
 import discord
 from discord.ext import commands
 from discord.ext.levelling import Level
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
-
-bot.level = Level()
+from discord.ext.levelling.payloads import LevelUpPayload
 
 
-@bot.event
-async def on_ready():
-    # On ready, print some details to standard out
-    print(f"-----\nLogged in as: {bot.user.name} : {bot.user.id}\n-----")
+class Bot(commands.Bot):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
+        self.level = Level(self)
 
-@bot.event
-async def on_message(message):
-    await bot.level.propagate(message)
-    await bot.process_commands(message)
+    async def on_ready(self):
+        print(f"-----\nLogged in as: {self.user.name} : {self.user.id}\n-----")
+
+    async def on_message(self, message):
+        await self.level.propagate(message)
+        await self.process_commands(message)
+
+    async def on_level_up(self, payload: LevelUpPayload):
+        member = payload.channel.guild.get_member(payload.identifier)
+        embed = discord.Embed(
+            title=f"`{member.display_name}` has leveled up to level `{payload.level}`!"
+        )
+        await payload.channel.send(embed=embed)
 
 
 if __name__ == "__main__":
-    bot.run("A great token !")
+    token = os.getenv("TOKEN")
+    Bot(command_prefix="!", intents=discord.Intents.all()).run(token)
