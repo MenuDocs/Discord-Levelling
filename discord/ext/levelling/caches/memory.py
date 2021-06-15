@@ -11,10 +11,7 @@ class Memory(Cache):
 
     async def get_guild(self, guild_id: int) -> Guild:
         try:
-            guild = Guild(identifier=guild_id)
-            raw_members = self.cache[guild_id]
-            guild._raw_members.append(raw_members)
-            return guild
+            return Guild(identifier=guild_id, raw_members=self.cache[guild_id])
         except KeyError:
             raise GuildNotFound from None
 

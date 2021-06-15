@@ -49,6 +49,9 @@ class Level:
             # Ignore guilds atm
             return
 
+        if self.options.ignore_bots and message.author.bot:
+            return
+
         member = Member(identifier=message.author.id, guild_id=message.guild.id)
         guild_id: int = message.guild.id if self.options.per_guild else None
         try:

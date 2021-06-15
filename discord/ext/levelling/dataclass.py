@@ -24,15 +24,13 @@ class Member(object):
 class Guild:
     identifier: int = attr.ib(hash=True)  # Think guild.id
     _members: List[Member] = attr.ib(default=attr.Factory(list))
-    _raw_members: List[Dict] = attr.ib(default=attr.Factory(list))
+    _raw_members: Dict = attr.ib(default=attr.Factory(dict))
 
     @property
     def members(self) -> List[Member]:
         if not bool(self._members):
-            for i, item in enumerate(self._raw_members):
-                data = self._raw_members[i]
-                # TODO Fix this shit
-                self._members.append(Member(**dict(data.values())))
-                print(self._members)
+            for k, v in self._raw_members.items():
+                # k id, v actual data
+                self._members.append(Member(**v))
 
         return self._members
