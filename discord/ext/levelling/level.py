@@ -90,6 +90,7 @@ class Level:
             return
 
         # Did level up
+        # TODO Document this
         self.bot.dispatch(
             "level_up",
             LevelUpPayload(member=member, level=new_level, channel=message.channel),
