@@ -39,7 +39,7 @@ class Guild:
     """A generic ``attrs`` dataclass representing a ``discord.Guild``
 
     One of ``members`` | ``raw_members`` are **required** to build
-    a Guild, however this is not checkedd/enforced
+    a Guild, however this is not checked/enforced
 
     Parameters
     ----------
