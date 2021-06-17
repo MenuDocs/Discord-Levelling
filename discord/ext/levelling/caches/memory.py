@@ -4,7 +4,7 @@ from ..exceptions import GuildNotFound, MemberNotFound
 
 
 class Memory(Cache):
-    """An in memory cache utilising a dictionary"""
+    """An in memory cache utilising a dictionary internally"""
 
     def __init__(self):
         self.cache = {}

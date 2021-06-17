@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>abc.Cache Class Reference &mdash; discord-ext-levelling  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="abc.Datastore Class Reference" href="datastore.html" />
+    <link rel="prev" title="Supported Storage Backends" href="../storage.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> discord-ext-levelling
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../level.html">Primary Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Supported Storage Backends</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Class References:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">abc.Cache</span></code> Class Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastore.html"><code class="docutils literal notranslate"><span class="pre">abc.Datastore</span></code> Class Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="member.html"><code class="docutils literal notranslate"><span class="pre">dataclass.Member</span></code> Class Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guild.html"><code class="docutils literal notranslate"><span class="pre">dataclass.Guild</span></code> Class Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discord-ext-levelling</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">abc.Cache</span></code> Class Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/modules/references/cache.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="abc-cache-class-reference">
+<h1><code class="docutils literal notranslate"><span class="pre">abc.Cache</span></code> Class Reference<a class="headerlink" href="#abc-cache-class-reference" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="discord.ext.levelling.abc.Cache">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">discord.ext.levelling.abc.</span></span><span class="sig-name descname"><span class="pre">Cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#discord.ext.levelling.abc.Cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base interface for cache’s</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="discord.ext.levelling.abc.Cache.get_guild">
+<em class="property"><span class="pre">async</span> </em><span class="sig-name descname"><span class="pre">get_guild</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guild_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="guild.html#discord.ext.levelling.dataclass.Guild" title="discord.ext.levelling.dataclass.Guild"><span class="pre">discord.ext.levelling.dataclass.Guild</span></a><a class="headerlink" href="#discord.ext.levelling.abc.Cache.get_guild" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the associated guilds data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="discord.ext.levelling.abc.Cache.get_member">
+<em class="property"><span class="pre">async</span> </em><span class="sig-name descname"><span class="pre">get_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guild_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="member.html#discord.ext.levelling.dataclass.Member" title="discord.ext.levelling.dataclass.Member"><span class="pre">discord.ext.levelling.dataclass.Member</span></a><a class="headerlink" href="#discord.ext.levelling.abc.Cache.get_member" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the associated member data</p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">guild_id</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> implies
+a global levelling storage</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="discord.ext.levelling.abc.Cache.set_member">
+<em class="property"><span class="pre">async</span> </em><span class="sig-name descname"><span class="pre">set_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guild_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#discord.ext.levelling.abc.Cache.set_member" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store data within the cache attached to a member</p>
+<p>Where <code class="docutils literal notranslate"><span class="pre">guild_id</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> implies
+a global levelling storage</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datastore.html" class="btn btn-neutral float-right" title="abc.Datastore Class Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../storage.html" class="btn btn-neutral float-left" title="Supported Storage Backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Skelmis, Menudocs
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

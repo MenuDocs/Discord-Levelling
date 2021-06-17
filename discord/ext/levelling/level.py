@@ -30,7 +30,7 @@ class Level:
         Parameters
         ----------
         bot: commands.Bot
-
+            The instance of the bot to use internally
         cache : Cache
             An instance of a class implementing the ``Cache`` interface Protocol
         data_store : Datastore
