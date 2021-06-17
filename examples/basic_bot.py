@@ -2,9 +2,7 @@ import os
 
 import discord
 from discord.ext import commands
-from discord.ext.levelling import Level
-
-from discord.ext.levelling.payloads import LevelUpPayload
+from discord.ext.levelling import Level, LevelUpPayload
 
 
 class Bot(commands.Bot):

@@ -4,6 +4,7 @@ import logging
 from collections import namedtuple
 
 from .level import Level
+from .payloads import LevelUpPayload
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 VersionInfo = namedtuple("VersionInfo", "major minor micro releaselevel serial")
