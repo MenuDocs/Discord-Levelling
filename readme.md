@@ -10,3 +10,13 @@ their bots.
  - Fully tested
  - Highly customizable 
  - Plug & Play
+
+---
+
+## For Support
+
+Join the MenuDocs' discord server for support with this package!
+- https://discord.gg/menudocs
+
+or dm us on twitter!
+- https://twitter.com/menudocs
