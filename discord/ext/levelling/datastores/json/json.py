@@ -70,5 +70,6 @@ class Json(Datastore):
         with open(os.path.join(self.path, "store.json"), "w") as f:
             json.dump(data, f, indent=4)
 
-    def _get_path(self) -> str:
+    @staticmethod
+    def _get_path() -> str:
         return str(Path(__file__).parents[0])

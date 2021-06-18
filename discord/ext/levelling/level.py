@@ -8,6 +8,7 @@ from .caches import Memory
 import discord.ext.levelling.options
 from .abc import Cache, Datastore
 from .dataclass import Member
+from .datastores.sqlite import Sqlite
 from .exceptions import MemberNotFound
 from .datastores.json import Json
 from .options import Options
@@ -40,7 +41,7 @@ class Level:
         """
         self.bot = bot
         self.cache = cache or Memory()
-        self.data_store = data_store or Json()
+        self.data_store = data_store or Sqlite()
         self.options = options or Options()
 
     async def propagate(self, message: discord.Message) -> None:
