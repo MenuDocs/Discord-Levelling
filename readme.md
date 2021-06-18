@@ -13,7 +13,9 @@ their bots.
 
 ---
 
-## For Support
+## Documentation | Examples | Support
+
+For documentation and examples, (see here)[https://discord-ext-levelling.readthedocs.io/en/latest/]
 
 Join the MenuDocs' discord server for support with this package!
 - https://discord.gg/menudocs
