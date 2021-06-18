@@ -21,7 +21,7 @@ with open("./discord/ext/levelling/__init__.py") as stream:
 version = match.group(2)
 
 setuptools.setup(
-    name="discord.ext.levelling",
+    name="discord-ext-levelling",
     version=version,
     author="Menudocs",
     author_email="contact@menudocs.org",
