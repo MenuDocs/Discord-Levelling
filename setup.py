@@ -30,7 +30,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/MenuDocs/discord.ext.levelling",
     packages=setuptools.find_packages(),
-    install_requires=["discord.py>=1"],
+    install_requires=["discord.py>=1", "aiosqlite"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

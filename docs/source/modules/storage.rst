@@ -23,5 +23,7 @@ the ``abc.Datastore`` Protocol.
 .. module:: discord.ext.levelling.datastores.json
 .. autoclass:: Json
 
+*This is the currently used default datastore*
+
 .. module:: discord.ext.levelling.datastores.sqlite
 .. autoclass:: Sqlite
