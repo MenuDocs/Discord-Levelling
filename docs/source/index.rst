@@ -12,6 +12,7 @@ Welcome to discord-ext-levelling's documentation!
 
    modules/level.rst
    modules/storage.rst
+   modules/examples.rst
 
 .. toctree::
    :maxdepth: 2

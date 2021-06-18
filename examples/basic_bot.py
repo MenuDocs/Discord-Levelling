@@ -19,6 +19,7 @@ class Bot(commands.Bot):
         await self.process_commands(message)
 
     async def on_level_up(self, payload: LevelUpPayload):
+        # This is triggered when a Member levels up
         member = payload.channel.guild.get_member(payload.member.identifier)
         embed = discord.Embed(
             title=f"`{member.display_name}` has leveled up to level `{payload.level}`!"
