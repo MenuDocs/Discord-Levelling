@@ -8,7 +8,7 @@ import discord
 from levelling.store import Store
 from levelling.caches import Memory
 from levelling.options import Options
-from levelling.dataclass import Member
+from levelling.dataclass import LevellingMember
 from levelling.datastores import Sqlite
 from levelling.abc import Cache, Datastore
 from levelling.payloads import LevelUpPayload
@@ -55,7 +55,7 @@ class Level:
             return
 
         guild_id: int = message.guild.id if self.options.per_guild else None
-        member: Member = await self.store.create_or_fetch_member(
+        member: LevellingMember = await self.store.create_or_fetch_member(
             member_id=message.author.id, guild_id=guild_id
         )
 
@@ -112,7 +112,7 @@ class Level:
         Returns
         -------
         int
-            The Member's level
+            The LevellingMember's level
         """
         level = 0
         remaining_xp = xp

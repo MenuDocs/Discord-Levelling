@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from levelling.dataclass import Member, Guild
+from levelling.dataclass import LevellingMember, LevellingGuild
 
 
 class Datastore(Protocol):
@@ -8,11 +8,13 @@ class Datastore(Protocol):
 
     __slots__ = ()
 
-    async def fetch_guild(self, guild_id: int) -> Guild:
+    async def fetch_guild(self, guild_id: int) -> LevellingGuild:
         """Returns the associated guilds data"""
         raise NotImplementedError
 
-    async def fetch_member(self, member_id: int, guild_id: int = None) -> Member:
+    async def fetch_member(
+        self, member_id: int, guild_id: int = None
+    ) -> LevellingMember:
         """Returns the associated member data
 
         Where ``guild_id`` is ``None`` implies
@@ -36,11 +38,11 @@ class Cache(Protocol):
 
     __slots__ = ()
 
-    async def get_guild(self, guild_id: int) -> Guild:
+    async def get_guild(self, guild_id: int) -> LevellingGuild:
         """Returns the associated guilds data"""
         raise NotImplementedError
 
-    async def get_member(self, member_id: int, guild_id: int = None) -> Member:
+    async def get_member(self, member_id: int, guild_id: int = None) -> LevellingMember:
         """Returns the associated member data
 
         Where ``guild_id`` is ``None`` implies

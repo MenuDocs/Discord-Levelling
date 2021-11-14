@@ -6,7 +6,7 @@ from typing import List
 import aiosqlite as aiosqlite
 
 from levelling.abc import Datastore
-from levelling.dataclass import Guild, Member
+from levelling.dataclass import LevellingGuild, LevellingMember
 from levelling.exceptions import MemberNotFound, GuildNotFound
 
 
@@ -31,20 +31,23 @@ class Sqlite(Datastore):
 
         self.db = os.path.join(self.cwd, "datastore.db")
 
-    async def fetch_guild(self, guild_id: int) -> Guild:
+    async def fetch_guild(self, guild_id: int) -> LevellingGuild:
         members = await self._fetch_all_members(guild_id=guild_id)
         if not bool(members):
             # Since guilds dont have a table, its based off members
             raise GuildNotFound
 
-        return Guild(id=guild_id, members=members)
+        return LevellingGuild(id=guild_id, members=members)
 
     @ensure_struct
-    async def fetch_member(self, member_id: int, guild_id: int = None) -> Member:
+    async def fetch_member(
+        self, member_id: int, guild_id: int = None
+    ) -> LevellingMember:
         if guild_id:
             async with aiosqlite.connect(self.db) as db:
                 async with db.execute(
-                    "SELECT * FROM Member " " WHERE guild_id=:guild_id AND id=:id",
+                    "SELECT * FROM LevellingMember "
+                    " WHERE guild_id=:guild_id AND id=:id",
                     {
                         "guild_id": guild_id,
                         "id": member_id,
@@ -54,13 +57,13 @@ class Sqlite(Datastore):
                     if not value:
                         raise MemberNotFound
 
-                    return Member(id=value[0], xp=value[1], guild_id=value[2])
+                    return LevellingMember(id=value[0], xp=value[1], guild_id=value[2])
 
         else:
             # No guild, so just search by id
             async with aiosqlite.connect(self.db) as db:
                 async with db.execute(
-                    "SELECT * FROM Member WHERE id=:identifer",
+                    "SELECT * FROM LevellingMember WHERE id=:identifer",
                     {
                         "id": member_id,
                     },
@@ -69,7 +72,7 @@ class Sqlite(Datastore):
                     if not value:
                         raise MemberNotFound
 
-                    return Member(id=value[0], xp=value[1])
+                    return LevellingMember(id=value[0], xp=value[1])
 
     @ensure_struct
     async def set_member(
@@ -77,7 +80,7 @@ class Sqlite(Datastore):
     ) -> None:
         async with aiosqlite.connect(self.db) as db:
             await db.execute(
-                "INSERT INTO Member "
+                "INSERT INTO LevellingMember "
                 "   VALUES (:id, :xp, :guild_id) "
                 "ON CONFLICT(id) "
                 "   DO UPDATE "
@@ -91,11 +94,12 @@ class Sqlite(Datastore):
             await db.commit()
 
     @ensure_struct
-    async def _fetch_all_members(self, guild_id: int) -> List[Member]:
-        """Used internally to populate the Guild"""
+    async def _fetch_all_members(self, guild_id: int) -> List[LevellingMember]:
+        """Used internally to populate the LevellingGuild"""
         async with aiosqlite.connect(self.db) as db:
             async with db.execute(
-                "SELECT (id, xp, guild_id) FROM Member " " WHERE guild_id=:guild_id",
+                "SELECT (id, xp, guild_id) FROM LevellingMember "
+                " WHERE guild_id=:guild_id",
                 {
                     "guild_id": guild_id,
                 },
@@ -106,7 +110,9 @@ class Sqlite(Datastore):
 
                 data = []
                 for value in values:
-                    data.append(Member(id=value[0], xp=value[1], guild_id=guild_id))
+                    data.append(
+                        LevellingMember(id=value[0], xp=value[1], guild_id=guild_id)
+                    )
 
                 return data
 
@@ -119,23 +125,25 @@ class Sqlite(Datastore):
 
         async with aiosqlite.connect(db) as db:
             async with db.execute(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name='Member'"
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='LevellingMember'"
             ) as cursor:
                 if not await cursor.fetchone():
                     await db.execute(
-                        "CREATE TABLE Member ("
+                        "CREATE TABLE LevellingMember ("
                         "   id number NOT NULL PRIMARY KEY, "
                         "   xp number NOT NULL,"
                         "   guild_id number"
                         ")"
                     )
 
-                    await db.execute("CREATE UNIQUE INDEX id_index ON Member(id)")
                     await db.execute(
-                        "CREATE UNIQUE INDEX guild_index ON Member(guild_id)"
+                        "CREATE UNIQUE INDEX id_index ON LevellingMember(id)"
                     )
                     await db.execute(
-                        "CREATE UNIQUE INDEX shared_index ON Member(id, guild_id)"
+                        "CREATE UNIQUE INDEX guild_index ON LevellingMember(guild_id)"
+                    )
+                    await db.execute(
+                        "CREATE UNIQUE INDEX shared_index ON LevellingMember(id, guild_id)"
                     )
 
                     await db.commit()

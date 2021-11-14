@@ -4,17 +4,17 @@ import attr
 
 
 @attr.s(slots=True)
-class Member(object):
-    """A generic ``attrs`` dataclass representing a ``discord.Member``
+class LevellingMember(object):
+    """A generic ``attrs`` dataclass representing a ``discord.LevellingMember``
 
     Parameters
     ----------
     id : int
-        -> ``discord.Member.id``
+        -> ``discord.LevellingMember.id``
     xp : int
-        The total xp this Member has
+        The total xp this LevellingMember has
     guild_id : int, optional
-        Which guild this Member is attached to.
+        Which guild this LevellingMember is attached to.
         If this is null it means levels are stored
         globally rather then per guild
     """
@@ -35,17 +35,17 @@ class Member(object):
 
 
 @attr.s
-class Guild:
-    """A generic ``attrs`` dataclass representing a ``discord.Guild``
+class LevellingGuild:
+    """A generic ``attrs`` dataclass representing a ``discord.LevellingGuild``
 
     One of ``members`` | ``raw_members`` are **required** to build
-    a Guild, however this is not checked/enforced
+    a LevellingGuild, however this is not checked/enforced
 
     Parameters
     ----------
     id : int
-        -> ``discord.Guild.id``
-    members: List[Member], optional
+        -> ``discord.LevellingGuild.id``
+    members: List[LevellingMember], optional
         The members internally associated with this guild
 
     Other Parameters
@@ -56,14 +56,14 @@ class Guild:
     """
 
     id: int = attr.ib(hash=True)  # Think guild.id
-    _members: List[Member] = attr.ib(default=attr.Factory(list))
+    _members: List[LevellingMember] = attr.ib(default=attr.Factory(list))
     _raw_members: Dict = attr.ib(default=attr.Factory(dict))
 
     @property
-    def members(self) -> List[Member]:
+    def members(self) -> List[LevellingMember]:
         if not bool(self._members):
             for k, v in self._raw_members.items():
                 # k id, v actual data
-                self._members.append(Member(**v))
+                self._members.append(LevellingMember(**v))
 
         return self._members

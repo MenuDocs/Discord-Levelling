@@ -3,7 +3,7 @@ from typing import Optional
 from attr import asdict
 
 from levelling.abc import Datastore, Cache
-from levelling.dataclass import Member
+from levelling.dataclass import LevellingMember
 from levelling.exceptions import MemberNotFound
 
 
@@ -17,7 +17,9 @@ class Store:
         self.cache = cache
         self.datastore = datastore
 
-    async def create_or_fetch_member(self, member_id: int, guild_id: int) -> Member:
+    async def create_or_fetch_member(
+        self, member_id: int, guild_id: int
+    ) -> LevellingMember:
         """
         Fetches a member, creates if one can't be found.
 
@@ -30,20 +32,20 @@ class Store:
 
         Returns
         -------
-        Member
+        LevellingMember
             The stored/cached/created member
         """
-        member: Optional[Member] = None
+        member: Optional[LevellingMember] = None
         try:
-            member: Member = await self.fetch_member(
+            member: LevellingMember = await self.fetch_member(
                 member_id=member_id, guild_id=guild_id
             )
         except MemberNotFound:
-            member = Member(id=member_id, guild_id=guild_id)
+            member = LevellingMember(id=member_id, guild_id=guild_id)
         finally:
             return member
 
-    async def fetch_member(self, member_id: int, guild_id: int) -> Member:
+    async def fetch_member(self, member_id: int, guild_id: int) -> LevellingMember:
         """
         Fetches a member, errors if one can't be found.
 
@@ -56,7 +58,7 @@ class Store:
 
         Returns
         -------
-        Member
+        LevellingMember
             The stored/cached member
 
         Raises
@@ -64,14 +66,14 @@ class Store:
         MemberNotFound
             The member could not be found
         """
-        member: Optional[Member] = None
+        member: Optional[LevellingMember] = None
         try:
-            member: Member = await self.cache.get_member(
+            member: LevellingMember = await self.cache.get_member(
                 member_id=member_id, guild_id=guild_id
             )
         except MemberNotFound:
             try:
-                member: Member = await self.datastore.fetch_member(
+                member: LevellingMember = await self.datastore.fetch_member(
                     member_id=member_id, guild_id=guild_id
                 )
             except MemberNotFound as e:
@@ -79,13 +81,13 @@ class Store:
 
         return member
 
-    async def set_member(self, member: Member) -> None:
+    async def set_member(self, member: LevellingMember) -> None:
         """
         Stores a member in both cache and persistent storage.
 
         Parameters
         ----------
-        member: Member
+        member: LevellingMember
             The member to store
         """
         await self.datastore.set_member(

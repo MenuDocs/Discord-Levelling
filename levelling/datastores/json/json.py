@@ -3,7 +3,7 @@ import os
 import sys
 
 from levelling.abc import Datastore
-from levelling.dataclass import Guild, Member
+from levelling.dataclass import LevellingGuild, LevellingMember
 from levelling.exceptions import GuildNotFound, MemberNotFound
 
 
@@ -16,18 +16,22 @@ class Json(Datastore):
     def __init__(self):
         self.path = self._get_path()
 
-    async def fetch_guild(self, guild_id: int) -> Guild:
+    async def fetch_guild(self, guild_id: int) -> LevellingGuild:
         data = await self._read()
         try:
-            return Guild(id=guild_id, raw_members=data[str(guild_id)])
+            return LevellingGuild(id=guild_id, raw_members=data[str(guild_id)])
         except KeyError:
             raise GuildNotFound from None
 
-    async def fetch_member(self, member_id: int, guild_id: int = None) -> Member:
+    async def fetch_member(
+        self, member_id: int, guild_id: int = None
+    ) -> LevellingMember:
         if guild_id:
             try:
                 guild = await self.fetch_guild(guild_id=guild_id)
-                member: Member = next(i for i in guild.members if i.id == member_id)
+                member: LevellingMember = next(
+                    i for i in guild.members if i.id == member_id
+                )
                 return member
             except GuildNotFound:
                 raise MemberNotFound from None
