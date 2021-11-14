@@ -1,6 +1,7 @@
 import math
 import random
 from functools import lru_cache
+from typing import Optional
 
 import discord
 
@@ -44,7 +45,7 @@ class Level:
         datastore = datastore or Sqlite()
         self.store = Store(cache=cache, datastore=datastore)
 
-    async def propagate(self, message: discord.Message) -> None:
+    async def propagate(self, message: discord.Message) -> Optional[LevelUpPayload]:
         if (self.options.ignore_dms or self.options.per_guild) and not message.guild:
             # Either dm's are ignored or per guild is enabled, so ignore dm's
             # Ignore guilds atm
@@ -74,14 +75,10 @@ class Level:
 
         if current_level == new_level:
             # Do nothing, didnt level up
-            return
+            return None
 
         # Did level up
-        # TODO Document this
-        self.bot.dispatch(
-            "level_up",
-            LevelUpPayload(member=member, level=new_level, channel=message.channel),
-        )
+        return LevelUpPayload(member=member, level=new_level, channel=message.channel)
 
     @lru_cache
     def get_level_xp_amount(self, level: int) -> int:

@@ -15,12 +15,15 @@ class Bot(commands.Bot):
         print(f"-----\nLogged in as: {self.user.name} : {self.user.id}\n-----")
 
     async def on_message(self, message):
-        await self.level.propagate(message)
+        leveled_up = await self.level.propagate(message)
+        if leveled_up:
+            await self.on_level_up(leveled_up)
+
         await self.process_commands(message)
 
     async def on_level_up(self, payload: LevelUpPayload):
         # This is triggered when a Member levels up
-        member = payload.channel.guild.get_member(payload.member.id)
+        member = payload.guild.get_member(payload.member.id)
         embed = discord.Embed(
             title=f"`{member.display_name}` has leveled up to level `{payload.level}`!"
         )
