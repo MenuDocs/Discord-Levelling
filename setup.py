@@ -15,13 +15,13 @@ _version_regex = (
     r"^__version__ = ('|\")((?:[0-9]+\.)*[0-9]+(?:\.?([a-z]+)(?:\.?[0-9])?)?)\1$"
 )
 
-with open("./discord/ext/levelling/__init__.py") as stream:
+with open("levelling/__init__.py") as stream:
     match = re.search(_version_regex, stream.read(), re.MULTILINE)
 
 version = match.group(2)
 
 setuptools.setup(
-    name="discord-ext-levelling",
+    name="levelling",
     version=version,
     author="Menudocs",
     author_email="contact@menudocs.org",
