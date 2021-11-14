@@ -1,7 +1,7 @@
 Welcome to Discord Levelling's documentation!
 =================================================
 
-On level up, the package will return an instance of :py:class`LevelUpPayload`
+On level up, the package will return an instance of :py:class`levelling.payloads.LevelUpPayload`
 
 You can see its documentation in the Class References section.
 
