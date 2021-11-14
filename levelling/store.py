@@ -1,5 +1,7 @@
 from typing import Optional
 
+from attr import asdict
+
 from levelling.abc import Datastore, Cache
 from levelling.dataclass import Member
 from levelling.exceptions import MemberNotFound
@@ -37,7 +39,7 @@ class Store:
                 member_id=member_id, guild_id=guild_id
             )
         except MemberNotFound:
-            member = Member(identifier=member_id, guild_id=guild_id)
+            member = Member(id=member_id, guild_id=guild_id)
         finally:
             return member
 
@@ -73,3 +75,19 @@ class Store:
             )
         finally:
             return member
+
+    async def set_member(self, member: Member) -> None:
+        """
+        Stores a member in both cache and persistent storage.
+
+        Parameters
+        ----------
+        member: Member
+            The member to store
+        """
+        await self.datastore.set_member(
+            member_id=member.id, data=asdict(member), guild_id=member.guild_id
+        )
+        await self.cache.set_member(
+            member_id=member.id, data=asdict(member), guild_id=member.guild_id
+        )

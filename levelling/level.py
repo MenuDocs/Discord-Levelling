@@ -56,19 +56,10 @@ class Level:
         if self.options.ignore_bots and message.author.bot:
             return
 
-        member = Member(identifier=message.author.id, guild_id=message.guild.id)
         guild_id: int = message.guild.id if self.options.per_guild else None
-        try:
-            member: Member = await self.cache.get_member(
-                member_id=message.author.id, guild_id=guild_id
-            )
-        except MemberNotFound:
-            try:
-                member: Member = await self.data_store.fetch_member(
-                    member_id=message.author.id, guild_id=guild_id
-                )
-            except MemberNotFound:
-                pass
+        member: Member = await self.store.create_or_fetch_member(
+            member_id=message.author.id, guild_id=guild_id
+        )
 
         # Get level before xp
         current_level = self.get_level_from_xp(member.xp)
@@ -82,12 +73,7 @@ class Level:
         new_level = self.get_level_from_xp(member.xp)
 
         # Update internals
-        await self.data_store.set_member(
-            member_id=member.id, data=asdict(member), guild_id=member.guild_id
-        )
-        await self.cache.set_member(
-            member_id=member.id, data=asdict(member), guild_id=member.guild_id
-        )
+        await self.store.set_member(member)
 
         if current_level == new_level:
             # Do nothing, didnt level up
@@ -165,14 +151,14 @@ class Level:
         return xp - xp_to_next_level
 
     @staticmethod
-    async def from_store(data_store: Datastore):
+    async def from_store(datastore: Datastore):
         """
         Creates and returns a Level instance from
         a given ``Datastore``
 
         Parameters
         ----------
-        data_store : Datastore
+        datastore : Datastore
             The datastore to restore from
 
         Returns
