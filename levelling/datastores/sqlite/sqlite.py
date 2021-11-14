@@ -1,6 +1,6 @@
 import functools
 import os
-from pathlib import Path
+import sys
 from typing import List
 
 import aiosqlite as aiosqlite
@@ -135,4 +135,4 @@ class Sqlite(Datastore):
 
     @staticmethod
     def _get_path() -> str:
-        return str(Path(__file__).parents[0])
+        return os.path.dirname(sys.argv[0])

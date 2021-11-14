@@ -1,7 +1,6 @@
 import json
 import os
-
-from pathlib import Path
+import sys
 
 from levelling.abc import Datastore
 from levelling.dataclass import Guild, Member
@@ -70,4 +69,4 @@ class Json(Datastore):
 
     @staticmethod
     def _get_path() -> str:
-        return str(Path(__file__).parents[0])
+        return os.path.dirname(sys.argv[0])
