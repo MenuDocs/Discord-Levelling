@@ -111,7 +111,7 @@ class Sqlite(Datastore):
                 return data
 
     @staticmethod
-    async def _initialize(db):
+    async def _initialize(db) -> None:
         """A static method used to make sure the relevant tables exist"""
         if Sqlite._initialized:
             # We are initialized
