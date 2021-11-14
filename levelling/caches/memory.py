@@ -19,9 +19,7 @@ class Memory(Cache):
         if guild_id:
             try:
                 guild: Guild = await self.get_guild(guild_id=guild_id)
-                member: Member = next(
-                    i for i in guild.members if i.identifier == member_id
-                )
+                member: Member = next(i for i in guild.members if i.id == member_id)
                 return member
             except GuildNotFound:
                 raise MemberNotFound from None

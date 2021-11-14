@@ -9,7 +9,7 @@ class Member(object):
 
     Parameters
     ----------
-    identifier : int
+    id : int
         -> ``discord.Member.id``
     xp : int
         The total xp this Member has
@@ -19,7 +19,7 @@ class Member(object):
         globally rather then per guild
     """
 
-    identifier: int = attr.ib(hash=True, eq=True)  # Think member.id
+    id: int = attr.ib(hash=True, eq=True)  # Think member.id
     xp: int = attr.ib(eq=False, default=0)
     guild_id: int = attr.ib(
         default=None,
@@ -43,7 +43,7 @@ class Guild:
 
     Parameters
     ----------
-    identifier : int
+    id : int
         -> ``discord.Guild.id``
     members: List[Member], optional
         The members internally associated with this guild
@@ -55,7 +55,7 @@ class Guild:
         will get lazily built in ``members`` when required
     """
 
-    identifier: int = attr.ib(hash=True)  # Think guild.id
+    id: int = attr.ib(hash=True)  # Think guild.id
     _members: List[Member] = attr.ib(default=attr.Factory(list))
     _raw_members: Dict = attr.ib(default=attr.Factory(dict))
 

@@ -28,9 +28,7 @@ class Json(Datastore):
         if guild_id:
             try:
                 guild = await self.fetch_guild(guild_id=guild_id)
-                member: Member = next(
-                    i for i in guild.members if i.identifier == member_id
-                )
+                member: Member = next(i for i in guild.members if i.id == member_id)
                 return member
             except GuildNotFound:
                 raise MemberNotFound from None

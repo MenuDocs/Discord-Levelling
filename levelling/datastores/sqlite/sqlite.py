@@ -44,11 +44,10 @@ class Sqlite(Datastore):
         if guild_id:
             async with aiosqlite.connect(self.db) as db:
                 async with db.execute(
-                    "SELECT * FROM Member "
-                    "   WHERE guild_id=:guild_id AND identifier=:identifier",
+                    "SELECT * FROM Member " "   WHERE guild_id=:guild_id AND id=:id",
                     {
                         "guild_id": guild_id,
-                        "identifier": member_id,
+                        "id": member_id,
                     },
                 ) as cursor:
                     value = await cursor.fetchone()
@@ -61,9 +60,9 @@ class Sqlite(Datastore):
             # No guild, so just search by id
             async with aiosqlite.connect(self.db) as db:
                 async with db.execute(
-                    "SELECT * FROM Member WHERE identifier=:identifer",
+                    "SELECT * FROM Member WHERE id=:identifer",
                     {
-                        "identifier": member_id,
+                        "id": member_id,
                     },
                 ) as cursor:
                     value = await cursor.fetchone()
@@ -79,12 +78,12 @@ class Sqlite(Datastore):
         async with aiosqlite.connect(self.db) as db:
             await db.execute(
                 "INSERT INTO Member "
-                "   VALUES (:identifier, :xp, :guild_id) "
-                "ON CONFLICT(identifier) "
+                "   VALUES (:id, :xp, :guild_id) "
+                "ON CONFLICT(id) "
                 "   DO UPDATE "
                 "   SET xp=:xp",
                 {
-                    "identifier": member_id,
+                    "id": member_id,
                     "xp": data.get("xp", 0),
                     "guild_id": guild_id,
                 },
@@ -96,8 +95,7 @@ class Sqlite(Datastore):
         """Used internally to populate the Guild"""
         async with aiosqlite.connect(self.db) as db:
             async with db.execute(
-                "SELECT (identifier, xp, guild_id) FROM Member "
-                "   WHERE guild_id=:guild_id",
+                "SELECT (id, xp, guild_id) FROM Member " "   WHERE guild_id=:guild_id",
                 {
                     "guild_id": guild_id,
                 },
@@ -128,7 +126,7 @@ class Sqlite(Datastore):
                 if not await cursor.fetchone():
                     await db.execute(
                         "CREATE TABLE Member ("
-                        "   identifier number NOT NULL PRIMARY KEY, "
+                        "   id number NOT NULL PRIMARY KEY, "
                         "   xp number NOT NULL,"
                         "   guild_id number"
                         ")"

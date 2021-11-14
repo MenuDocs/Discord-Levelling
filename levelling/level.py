@@ -13,6 +13,7 @@ from .exceptions import MemberNotFound
 from .datastores.json import Json
 from .options import Options
 from .payloads import LevelUpPayload
+from .store import Store
 
 
 class Level:
@@ -23,7 +24,7 @@ class Level:
         bot,
         *,
         cache: Cache = None,
-        data_store: Datastore = None,
+        datastore: Datastore = None,
         options: Options = None
     ):
         """
@@ -34,15 +35,17 @@ class Level:
             The instance of the bot to use internally
         cache : Cache
             An instance of a class implementing the ``Cache`` interface Protocol
-        data_store : Datastore
+        datastore : Datastore
             An instance of a class implementing the ``Datastore`` interface Protocol
         options : Options
             An instance of the ``Options`` dataclass to show the options to support
         """
         self.bot = bot
-        self.cache = cache or Memory()
-        self.data_store = data_store or Sqlite()
         self.options = options or Options()
+
+        cache = cache or Memory()
+        datastore = datastore or Sqlite()
+        self.store = Store(cache=cache, datastore=datastore)
 
     async def propagate(self, message: discord.Message) -> None:
         if (self.options.ignore_dms or self.options.per_guild) and not message.guild:
@@ -80,10 +83,10 @@ class Level:
 
         # Update internals
         await self.data_store.set_member(
-            member_id=member.identifier, data=asdict(member), guild_id=member.guild_id
+            member_id=member.id, data=asdict(member), guild_id=member.guild_id
         )
         await self.cache.set_member(
-            member_id=member.identifier, data=asdict(member), guild_id=member.guild_id
+            member_id=member.id, data=asdict(member), guild_id=member.guild_id
         )
 
         if current_level == new_level:

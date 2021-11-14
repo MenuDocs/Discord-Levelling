@@ -914,7 +914,7 @@
     if (argument) {
       // Insure against third-party code injection. (CVE-2021-23358)
       if (!bareIdentifier.test(argument)) throw new Error(
-        'variable is not a bare identifier: ' + argument
+        'variable is not a bare id: ' + argument
       );
     } else {
       // If a variable is not specified, place data values in local scope.
