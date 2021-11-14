@@ -1,8 +1,8 @@
-Welcome to discord-ext-levelling's documentation!
+Welcome to Discord Levelling's documentation!
 =================================================
 
-On level up, the package will dispatch the ``on_level_up``
-event on your bot with 1 argument. This argument is the ``LevelUpPayload``.
+On level up, the package will return an instance of :py:class`LevelUpPayload`
+
 You can see its documentation in the Class References section.
 
 .. toctree::
