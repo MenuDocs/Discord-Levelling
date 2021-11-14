@@ -3,3 +3,4 @@
 build/
 dist/
 discord_ext_levelling.egg-info/
+*.db
