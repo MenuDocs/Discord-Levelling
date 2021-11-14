@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from discord.ext.levelling.dataclass import Member, Guild
+from levelling.dataclass import Member, Guild
 
 
 class Datastore(Protocol):

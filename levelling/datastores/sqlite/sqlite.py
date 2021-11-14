@@ -5,9 +5,9 @@ from typing import List
 
 import aiosqlite as aiosqlite
 
-from ...abc import Datastore
-from ...dataclass import Guild, Member
-from ...exceptions import MemberNotFound, GuildNotFound
+from levelling.abc import Datastore
+from levelling.dataclass import Guild, Member
+from levelling.exceptions import MemberNotFound, GuildNotFound
 
 
 def ensure_struct(func):
@@ -37,7 +37,7 @@ class Sqlite(Datastore):
             # Since guilds dont have a table, its based off members
             raise GuildNotFound
 
-        return Guild(identifier=guild_id, members=members)
+        return Guild(id=guild_id, members=members)
 
     @ensure_struct
     async def fetch_member(self, member_id: int, guild_id: int = None) -> Member:
@@ -54,7 +54,7 @@ class Sqlite(Datastore):
                     if not value:
                         raise MemberNotFound
 
-                    return Member(identifier=value[0], xp=value[1], guild_id=value[2])
+                    return Member(id=value[0], xp=value[1], guild_id=value[2])
 
         else:
             # No guild, so just search by id
@@ -69,7 +69,7 @@ class Sqlite(Datastore):
                     if not value:
                         raise MemberNotFound
 
-                    return Member(identifier=value[0], xp=value[1])
+                    return Member(id=value[0], xp=value[1])
 
     @ensure_struct
     async def set_member(
@@ -106,9 +106,7 @@ class Sqlite(Datastore):
 
                 data = []
                 for value in values:
-                    data.append(
-                        Member(identifier=value[0], xp=value[1], guild_id=guild_id)
-                    )
+                    data.append(Member(id=value[0], xp=value[1], guild_id=guild_id))
 
                 return data
 

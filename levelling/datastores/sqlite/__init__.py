@@ -1,1 +1,1 @@
-from .sqlite import Sqlite
+from levelling.datastores.sqlite.sqlite import Sqlite

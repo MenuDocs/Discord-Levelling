@@ -1,6 +1,6 @@
 import discord
 
-from .dataclass import Member
+from levelling.dataclass import Member
 
 
 class LevelUpPayload:

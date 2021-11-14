@@ -3,9 +3,9 @@ import os
 
 from pathlib import Path
 
-from ...abc import Datastore
-from ...dataclass import Guild, Member
-from ...exceptions import GuildNotFound, MemberNotFound
+from levelling.abc import Datastore
+from levelling.dataclass import Guild, Member
+from levelling.exceptions import GuildNotFound, MemberNotFound
 
 
 class Json(Datastore):
@@ -20,7 +20,7 @@ class Json(Datastore):
     async def fetch_guild(self, guild_id: int) -> Guild:
         data = await self._read()
         try:
-            return Guild(identifier=guild_id, raw_members=data[str(guild_id)])
+            return Guild(id=guild_id, raw_members=data[str(guild_id)])
         except KeyError:
             raise GuildNotFound from None
 
