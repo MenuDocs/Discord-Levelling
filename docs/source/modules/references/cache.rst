@@ -1,7 +1,7 @@
 ``abc.Cache`` Class Reference
 =============================
 
-.. currentmodule:: discord.ext.levelling.abc
+.. currentmodule:: levelling.abc
 
 .. autoclass:: Cache
     :members:

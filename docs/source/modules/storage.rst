@@ -11,7 +11,7 @@ the ``abc.Cache`` Protocol.
 
 However the following ship with the package:
 
-.. module:: discord.ext.levelling.caches
+.. module:: levelling.caches
 .. autoclass:: Memory
 
 
@@ -20,10 +20,10 @@ Datastores
 Any class can be used for a cache assuming it implements
 the ``abc.Datastore`` Protocol.
 
-.. module:: discord.ext.levelling.datastores.json
+.. module:: levelling.datastores.json
 .. autoclass:: Json
 
 *This is the currently used default datastore*
 
-.. module:: discord.ext.levelling.datastores.sqlite
+.. module:: levelling.datastores.sqlite
 .. autoclass:: Sqlite

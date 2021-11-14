@@ -2,6 +2,6 @@
 =====================================
 
 
-.. currentmodule:: discord.ext.levelling.payloads
+.. currentmodule:: levelling.payloads
 
 .. autoclass:: LevelUpPayload

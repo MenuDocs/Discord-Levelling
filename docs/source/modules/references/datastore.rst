@@ -1,7 +1,7 @@
 ``abc.Datastore`` Class Reference
 =================================
 
-.. currentmodule:: discord.ext.levelling.abc
+.. currentmodule:: levelling.abc
 
 .. autoclass:: Datastore
     :members:
