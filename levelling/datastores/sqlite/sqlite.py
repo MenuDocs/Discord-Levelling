@@ -44,7 +44,7 @@ class Sqlite(Datastore):
         if guild_id:
             async with aiosqlite.connect(self.db) as db:
                 async with db.execute(
-                    "SELECT * FROM Member " "   WHERE guild_id=:guild_id AND id=:id",
+                    "SELECT * FROM Member " " WHERE guild_id=:guild_id AND id=:id",
                     {
                         "guild_id": guild_id,
                         "id": member_id,
@@ -95,7 +95,7 @@ class Sqlite(Datastore):
         """Used internally to populate the Guild"""
         async with aiosqlite.connect(self.db) as db:
             async with db.execute(
-                "SELECT (id, xp, guild_id) FROM Member " "   WHERE guild_id=:guild_id",
+                "SELECT (id, xp, guild_id) FROM Member " " WHERE guild_id=:guild_id",
                 {
                     "guild_id": guild_id,
                 },
@@ -129,6 +129,15 @@ class Sqlite(Datastore):
                         "   guild_id number"
                         ")"
                     )
+
+                    await db.execute("CREATE UNIQUE INDEX id_index ON Member(id)")
+                    await db.execute(
+                        "CREATE UNIQUE INDEX guild_index ON Member(guild_id)"
+                    )
+                    await db.execute(
+                        "CREATE UNIQUE INDEX shared_index ON Member(id, guild_id)"
+                    )
+
                     await db.commit()
 
         Sqlite._initialized = True

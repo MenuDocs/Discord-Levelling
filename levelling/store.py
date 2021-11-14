@@ -70,11 +70,14 @@ class Store:
                 member_id=member_id, guild_id=guild_id
             )
         except MemberNotFound:
-            member: Member = await self.datastore.fetch_member(
-                member_id=member_id, guild_id=guild_id
-            )
-        finally:
-            return member
+            try:
+                member: Member = await self.datastore.fetch_member(
+                    member_id=member_id, guild_id=guild_id
+                )
+            except MemberNotFound as e:
+                raise e
+
+        return member
 
     async def set_member(self, member: Member) -> None:
         """
