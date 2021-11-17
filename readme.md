@@ -19,7 +19,6 @@ their bots.
 import os
 
 import discord
-
 from discord.ext import commands
 from levelling import Level, LevelUpPayload
 
