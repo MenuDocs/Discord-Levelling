@@ -32,7 +32,7 @@ to use this package in your next discord bot.
 
         async def on_level_up(self, payload: LevelUpPayload):
             # This is triggered when a Member levels up
-            member = payload.guild.get_member(payload.member.identifier)
+            member = payload.guild.get_member(payload.member.id)
             embed = discord.Embed(
                 title=f"`{member.display_name}` has leveled up to level `{payload.level}`!"
             )

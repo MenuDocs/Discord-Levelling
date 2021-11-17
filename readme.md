@@ -25,7 +25,6 @@ from levelling import Level, LevelUpPayload
 
 
 class Bot(commands.Bot):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -34,7 +33,6 @@ class Bot(commands.Bot):
     async def on_ready(self):
         print(f"-----\nLogged in as: {self.user.name} : {self.user.id}\n-----")
 
-
     async def on_message(self, message):
         leveled_up = await self.level.propagate(message)
         if leveled_up:
@@ -42,17 +40,15 @@ class Bot(commands.Bot):
 
         await self.process_commands(message)
 
-
     async def on_level_up(self, payload: LevelUpPayload):
         # This is triggered when a Member levels up
-        member = payload.guild.get_member(payload.member.identifier)
+        member = payload.guild.get_member(payload.member.id)
         embed = discord.Embed(
 
             title=f"`{member.display_name}` has leveled up to level `{payload.level}`!"
 
         )
         await payload.channel.send(embed=embed)
-
 
 
 if __name__ == "__main__":
