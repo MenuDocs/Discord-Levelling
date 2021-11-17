@@ -1,4 +1,4 @@
-discord.ext.levelling
+Discord Levelling
 ---
 
 A package built for discord.py developers who want to
