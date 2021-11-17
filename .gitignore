@@ -2,5 +2,5 @@
 .idea/
 build/
 dist/
-discord_ext_levelling.egg-info/
+levelling.egg-info/
 *.db
