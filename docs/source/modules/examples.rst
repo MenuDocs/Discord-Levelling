@@ -11,7 +11,7 @@ to use this package in your next discord bot.
 
     import discord
     from discord.ext import commands
-    from discord.ext.levelling import Level, LevelUpPayload
+    from levelling import Level, LevelUpPayload
 
 
     class Bot(commands.Bot):
