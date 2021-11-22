@@ -35,5 +35,5 @@ master_doc = "index"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "nextcord": ("https://nextcord.readthedocs.io/en/latest/", None),
+    "discord.py": ("https://discordpy.readthedocs.io/en/latest/", None),
 }

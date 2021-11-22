@@ -13,7 +13,7 @@ class LevellingMember:
         -> ``discord.Member.id``
     xp : int
         The total xp this LevellingMember has
-    guild_id : int, optional
+    guild_id : int, Optional
         Which guild this LevellingMember is attached to.
         If this is null it means levels are stored
         globally rather then per guild
@@ -51,7 +51,7 @@ class LevellingGuild:
 
     Other Parameters
     ----------------
-    raw_members : dict, optional
+    raw_members : dict, Optional
         A Dict of all the members in this guild. This
         will get lazily built into ``members`` when required
     """
