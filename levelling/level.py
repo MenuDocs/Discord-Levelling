@@ -1,7 +1,7 @@
 import math
 import random
 from functools import lru_cache
-from typing import Optional
+from typing import Optional, List
 
 import discord
 
@@ -79,6 +79,16 @@ class Level:
 
         # Did level up
         return LevelUpPayload(member=member, level=new_level, channel=message.channel)
+
+    async def leaderboard(self, guild_id: int = None) -> List[LevellingMember]:
+        guild_id: int = guild_id if self.options.per_guild else None
+        members = await self.store.datastore.fetch_all_members(guild_id)
+        data = []
+        for member in members:
+            member.level = self.get_level_from_xp(member.xp)
+            data.append(member)
+
+        return sorted(data, key=lambda x: x.level)
 
     @lru_cache
     def get_level_xp_amount(self, level: int) -> int:

@@ -30,6 +30,17 @@ class Bot(commands.Bot):
         await payload.channel.send(embed=embed)
 
 
+bot = Bot(command_prefix="!", intents=discord.Intents.all())
+
+
+@bot.command()
+async def leaderboard(ctx):
+    leaderboard_members = await bot.level.leaderboard()
+    desc = "\n".join(f"<@{m.id}> - level `{m.level}`" for m in leaderboard_members)
+
+    await ctx.send(f"Here's our leaders!\n---\n\n{desc}")
+
+
 if __name__ == "__main__":
     token = os.getenv("TOKEN")
-    Bot(command_prefix="!", intents=discord.Intents.all()).run(token)
+    bot.run(token)

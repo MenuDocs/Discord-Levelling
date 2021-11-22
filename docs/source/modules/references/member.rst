@@ -1,7 +1,7 @@
-``dataclass.Member`` Class Reference
+``dataclass.LevellingMember`` Class Reference
 ====================================
 
 .. currentmodule:: levelling.dataclass
 
-.. autoclass:: Member
+.. autoclass:: LevellingMember
     :special-members: __init__

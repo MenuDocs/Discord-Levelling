@@ -32,7 +32,7 @@ class Sqlite(Datastore):
         self.db = os.path.join(self.cwd, "datastore.db")
 
     async def fetch_guild(self, guild_id: int) -> LevellingGuild:
-        members = await self._fetch_all_members(guild_id=guild_id)
+        members = await self.fetch_all_members(guild_id=guild_id)
         if not bool(members):
             # Since guilds dont have a table, its based off members
             raise GuildNotFound
@@ -94,27 +94,42 @@ class Sqlite(Datastore):
             await db.commit()
 
     @ensure_struct
-    async def _fetch_all_members(self, guild_id: int) -> List[LevellingMember]:
+    async def fetch_all_members(self, guild_id: int = None) -> List[LevellingMember]:
         """Used internally to populate the LevellingGuild"""
-        async with aiosqlite.connect(self.db) as db:
-            async with db.execute(
-                "SELECT (id, xp, guild_id) FROM LevellingMember "
-                " WHERE guild_id=:guild_id",
-                {
-                    "guild_id": guild_id,
-                },
-            ) as cursor:
-                values = await cursor.fetchall()
-                if not values:
-                    return []
+        if guild_id:
+            async with aiosqlite.connect(self.db) as db:
+                async with db.execute(
+                    "SELECT (id, xp, guild_id) FROM LevellingMember "
+                    " WHERE guild_id=:guild_id",
+                    {
+                        "guild_id": guild_id,
+                    },
+                ) as cursor:
+                    values = await cursor.fetchall()
+                    if not values:
+                        return []
 
-                data = []
-                for value in values:
-                    data.append(
-                        LevellingMember(id=value[0], xp=value[1], guild_id=guild_id)
-                    )
+                    data = []
+                    for value in values:
+                        data.append(
+                            LevellingMember(id=value[0], xp=value[1], guild_id=guild_id)
+                        )
 
-                return data
+                    return data
+        else:
+            async with aiosqlite.connect(self.db) as db:
+                async with db.execute("SELECT * FROM LevellingMember") as cursor:
+                    values = await cursor.fetchall()
+                    if not values:
+                        return []
+
+                    data = []
+                    for value in values:
+                        data.append(
+                            LevellingMember(id=value[0], xp=value[1], guild_id=guild_id)
+                        )
+
+                    return data
 
     @staticmethod
     async def _initialize(db) -> None:

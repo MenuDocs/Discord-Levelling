@@ -1,16 +1,16 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 import attr
 
 
 @attr.s(slots=True)
-class LevellingMember(object):
+class LevellingMember:
     """A generic ``attrs`` dataclass representing a ``discord.LevellingMember``
 
     Parameters
     ----------
     id : int
-        -> ``discord.LevellingMember.id``
+        -> ``discord.Member.id``
     xp : int
         The total xp this LevellingMember has
     guild_id : int, optional
@@ -27,6 +27,7 @@ class LevellingMember(object):
         kw_only=True,
         eq=False,
     )
+    level: Optional[int] = attr.ib(default=None)
 
     @xp.validator
     def _validate_positive(self, attr, value):
@@ -44,7 +45,7 @@ class LevellingGuild:
     Parameters
     ----------
     id : int
-        -> ``discord.LevellingGuild.id``
+        -> ``discord.Guild.id``
     members: List[LevellingMember], optional
         The members internally associated with this guild
 
@@ -52,7 +53,7 @@ class LevellingGuild:
     ----------------
     raw_members : dict, optional
         A Dict of all the members in this guild. This
-        will get lazily built in ``members`` when required
+        will get lazily built into ``members`` when required
     """
 
     id: int = attr.ib(hash=True)  # Think guild.id

@@ -66,7 +66,6 @@ class Store:
         MemberNotFound
             The member could not be found
         """
-        member: Optional[LevellingMember] = None
         try:
             member: LevellingMember = await self.cache.get_member(
                 member_id=member_id, guild_id=guild_id

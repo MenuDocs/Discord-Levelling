@@ -1,7 +1,7 @@
-``dataclass.Guild`` Class Reference
+``dataclass.LevellingGuild`` Class Reference
 ====================================
 
 .. currentmodule:: levelling.dataclass
 
-.. autoclass:: Guild
+.. autoclass:: LevellingGuild
     :special-members: __init__
