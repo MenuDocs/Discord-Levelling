@@ -12,6 +12,7 @@ You can see its documentation in the Class References section.
    modules/level.rst
    modules/storage.rst
    modules/examples.rst
+   modules/references/options.rst
 
 .. toctree::
    :maxdepth: 2

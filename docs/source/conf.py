@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
-project = "discord-ext-levelling"
+project = "Discord Levelling"
 copyright = "2021, Skelmis, Menudocs"
 author = "Skelmis, Menudocs"
 
@@ -32,3 +32,8 @@ html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
 master_doc = "index"
+
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "nextcord": ("https://nextcord.readthedocs.io/en/latest/", None),
+}

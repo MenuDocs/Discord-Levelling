@@ -1,5 +1,5 @@
 ``dataclass.LevellingMember`` Class Reference
-====================================
+=============================================
 
 .. currentmodule:: levelling.dataclass
 

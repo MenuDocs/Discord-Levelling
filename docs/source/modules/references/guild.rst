@@ -1,5 +1,5 @@
 ``dataclass.LevellingGuild`` Class Reference
-====================================
+============================================
 
 .. currentmodule:: levelling.dataclass
 
