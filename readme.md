@@ -40,7 +40,7 @@ class Bot(commands.Bot):
         await self.process_commands(message)
 
     async def on_level_up(self, payload: LevelUpPayload):
-        # This is triggered when a Member levels up
+        # This is triggered when a LevellingMember levels up
         member = payload.guild.get_member(payload.member.id)
         embed = discord.Embed(
             title=f"`{member.display_name}` has leveled up to level `{payload.level}`!"
@@ -48,9 +48,21 @@ class Bot(commands.Bot):
         await payload.channel.send(embed=embed)
 
 
+bot = Bot(command_prefix="!", intents=discord.Intents.all())
+
+
+@bot.command()
+async def leaderboard(ctx):
+    leaderboard_members = await bot.level.leaderboard()
+    desc = "\n".join(f"<@{m.id}> - level `{m.level}`" for m in leaderboard_members)
+
+    await ctx.send(f"Here's our leaders!\n---\n\n{desc}")
+
+
 if __name__ == "__main__":
     token = os.getenv("TOKEN")
-    Bot(command_prefix="!", intents=discord.Intents.all()).run(token)
+    bot.run(token)
+
 ```
 
 ## Documentation | Examples | Support
