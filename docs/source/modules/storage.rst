@@ -20,7 +20,7 @@ Datastores
 Any class can be used for a cache assuming it implements
 the ``abc.Datastore`` Protocol.
 
-.. module:: levelling.datastores
+.. module:: levelling.datastores.json
 .. autoclass:: Json
 
 *This is the currently used default datastore*

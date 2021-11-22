@@ -81,6 +81,19 @@ class Level:
         return LevelUpPayload(member=member, level=new_level, channel=message.channel)
 
     async def leaderboard(self, guild_id: int = None) -> List[LevellingMember]:
+        """
+        Returns a list of members sorted by level.
+
+        Parameters
+        ----------
+        guild_id: int
+            The guild to work with
+
+        Returns
+        -------
+        List[LevellingMember]
+            The sorted list of members
+        """
         guild_id: int = guild_id if self.options.per_guild else None
         members = await self.store.datastore.fetch_all_members(guild_id)
         data = []
@@ -153,20 +166,3 @@ class Level:
         for i in range(current_level):
             xp_to_next_level += self.get_level_xp_amount(current_level)
         return xp - xp_to_next_level
-
-    @staticmethod
-    async def from_store(datastore: Datastore):
-        """
-        Creates and returns a Level instance from
-        a given ``Datastore``
-
-        Parameters
-        ----------
-        datastore : Datastore
-            The datastore to restore from
-
-        Returns
-        -------
-        Level
-            A ``Level`` instance built from a given ``Datastore``
-        """
