@@ -2,6 +2,6 @@
 =====================================
 
 
-.. currentmodule:: levelling.payloads
+.. currentmodule:: levelling
 
 .. autoclass:: LevelUpPayload

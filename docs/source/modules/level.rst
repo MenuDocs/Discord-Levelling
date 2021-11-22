@@ -3,7 +3,7 @@ Primary Interface
 
 The following documents the main interaction class
 
-.. currentmodule:: levelling.level
+.. currentmodule:: levelling
 
 .. autoclass:: Level
     :members:
