@@ -1,3 +1,5 @@
 attrs
 discord.py
 sphinx==4.2.0
+sphinx_rtd_theme
+aiosqlite
