@@ -46,6 +46,19 @@ class Level:
         self.store = Store(cache=cache, datastore=datastore)
 
     async def propagate(self, message: discord.Message) -> Optional[LevelUpPayload]:
+        """
+        Call me in ``on_message`` !
+
+        Parameters
+        ----------
+        message: discord.Message
+            The message to propagate
+
+        Returns
+        -------
+        Optional[LevelUpPayload]
+            This is returned if the member levelled up this message
+        """
         if (self.options.ignore_dms or self.options.per_guild) and not message.guild:
             # Either dm's are ignored or per guild is enabled, so ignore dm's
             # Ignore guilds atm
